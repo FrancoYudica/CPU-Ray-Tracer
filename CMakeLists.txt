@@ -44,5 +44,9 @@ endif()
 
 
 
-add_library(cpu_raytracer STATIC ${RT_FILES})
+add_library(
+    cpu_raytracer 
+    STATIC 
+    CPURayTracer.hpp
+    ${RT_FILES})
 target_link_libraries(cpu_raytracer glm)
