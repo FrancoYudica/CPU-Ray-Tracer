@@ -37,7 +37,7 @@ file(GLOB RT_FILES
 )
 
 if(TARGET glm)
-    message("ALREADY CREATED")
+    message("glm already added")
 else()
     add_subdirectory(dependencies/glm)
 endif()
