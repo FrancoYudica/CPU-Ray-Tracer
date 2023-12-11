@@ -36,7 +36,13 @@ file(GLOB RT_FILES
     src/acceleration_data_structures/*.cpp
 )
 
-add_subdirectory(dependencies/glm)
+if(TARGET glm)
+    message("ALREADY CREATED")
+else()
+    add_subdirectory(dependencies/glm)
+endif()
+
+
 
 add_library(cpu_raytracer STATIC ${RT_FILES})
 target_link_libraries(cpu_raytracer glm)
