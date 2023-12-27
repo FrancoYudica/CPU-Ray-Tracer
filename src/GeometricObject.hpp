@@ -31,12 +31,15 @@ enum class GeometricObjectType : uint8_t {
     Bowl = 18,
     Instance = 19,
     BoundingVolumeHierarchy = 20,
-    Container = 21
+    Container = 21,
+    TransformContainer = 22
 };
 
 static bool is_container_type(GeometricObjectType type)
 {
-    return type == GeometricObjectType::Container || type == GeometricObjectType::BoundingVolumeHierarchy;
+    return type == GeometricObjectType::Container
+        || type == GeometricObjectType::BoundingVolumeHierarchy
+        || type == GeometricObjectType::TransformContainer;
 }
 class GeometricObject;
 
@@ -88,14 +91,25 @@ public:
     {
         _bounding_box = AABBox(min, max);
         _has_bounding_box = true;
+        enable_bounding_box();
     }
 
     inline void set_bounding_box(const AABBox& bbox)
     {
-        _bounding_box = bbox;
-        _has_bounding_box = true;
+        set_bounding_box(bbox.get_min(), bbox.get_max());
     }
-    const AABBox& get_bounding_box() const { return _bounding_box; }
+
+    /// @brief Disables bounding box
+    inline void disable_bounding_box() { _bounding_box_enabled = false; }
+
+    /// @brief Enables bounding box, in case that it has a bounding box set
+    inline void enable_bounding_box() { _bounding_box_enabled = _has_bounding_box; }
+
+    /// @brief True if the bounding box is enabled
+    inline bool bounding_box_enabled() const { return _bounding_box_enabled; }
+
+    /// @brief Returns AABBox used for testing intersections
+    virtual const AABBox& get_bounding_box() const { return _bounding_box; }
 
     /// @return inverse surface area
     virtual float pdf(const ShadeRec& sr) const { return _inv_surface_area; }
@@ -125,6 +139,7 @@ public:
 private:
     GeometricObjectType _type;
     bool _has_bounding_box;
+    bool _bounding_box_enabled;
     bool _visible;
     AABBox _bounding_box;
     NormalType _normal_type;

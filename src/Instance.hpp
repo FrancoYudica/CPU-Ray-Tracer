@@ -34,6 +34,7 @@ public:
     inline Vec3 get_scale() const { return _scale; }
     inline Vec3 get_rotation() const { return _rotation; }
     inline bool get_transform_the_texture() const { return _transform_the_texture; }
+    inline GeometricObjectPtr get_object() const { return _object; }
 
 private:
     void _recalculate_matrices();

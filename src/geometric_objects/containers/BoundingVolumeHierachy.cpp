@@ -146,16 +146,25 @@ void BVH::clear()
 
 void BVH::build_tree()
 {
-    _root_node = std::make_shared<_BVHNode>(_objects, 0, _objects.size() - 1);
+    if (_objects.size() > 0)
+        _root_node = std::make_shared<_BVHNode>(_objects, 0, _objects.size() - 1);
+    else
+        _root_node = nullptr;
     _built = true;
 }
 
 bool BVH::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
+    if (!_root_node)
+        return false;
+
     return _root_node->hit(ray, tmin, record);
 }
 
 bool BVH::shadow_hit(const Ray& ray, double& tmin) const
 {
+    if (!_root_node)
+        return false;
+
     return _root_node->shadow_hit(ray, tmin);
 }

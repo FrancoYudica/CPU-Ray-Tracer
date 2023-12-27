@@ -6,6 +6,19 @@ using namespace GeometricObjects;
 void Container::add(const GeometricObjectPtr& object)
 {
     _objects.push_back(object);
+
+    if (!object->has_bounding_box())
+        return;
+
+    // Sets object bounding box
+    if (!has_bounding_box())
+        set_bounding_box(object->get_bounding_box());
+
+    // Combines bounding box
+    else {
+        AABBox combined = AABBox::get_surrounding(get_bounding_box(), object->get_bounding_box());
+        set_bounding_box(combined);
+    }
 }
 
 bool Container::contains(const GeometricObjectPtr& object) const
@@ -21,6 +34,7 @@ bool Container::remove(const GeometricObjectPtr& object)
         return false;
 
     _objects.erase(itr);
+    _recalculate_bbox();
     return true;
 }
 
@@ -42,7 +56,7 @@ size_t Container::size()
 bool Container::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
 
-    double t;
+    double t = Constants::k_huge_value;
 
     ShadeRec sr(record.world, ray);
 
@@ -53,7 +67,7 @@ bool Container::hit(const Ray& ray, double& tmin, ShadeRec& record) const
             continue;
 
         // Tests if bounding box fails
-        if (object->has_bounding_box() && !object->get_bounding_box().hit(ray))
+        if (object->bounding_box_enabled() && !object->get_bounding_box().hit(ray))
             continue;
 
         if (object->hit(ray, t, sr) && t < tmin) {
@@ -77,12 +91,28 @@ bool Container::shadow_hit(const Ray& ray, double& tmin) const
             continue;
 
         // Tests for bounding box fail
-        if (object->has_bounding_box() && !object->get_bounding_box().hit(ray))
+        if (object->bounding_box_enabled() && !object->get_bounding_box().hit(ray))
             continue;
 
+        t = tmin;
+
         if (object->shadow_hit(ray, t) && t < tmin) {
+            tmin = t;
             return true;
         }
     }
     return false;
+}
+
+void RT::GeometricObjects::Container::_recalculate_bbox()
+{
+    auto itr = _objects.begin();
+
+    AABBox bbox = (*itr)->get_bounding_box();
+
+    for (; itr != std::end(_objects); itr++) {
+        if ((*itr)->bounding_box_enabled())
+            bbox = AABBox::get_surrounding(bbox, (*itr)->get_bounding_box());
+    }
+    set_bounding_box(bbox);
 }

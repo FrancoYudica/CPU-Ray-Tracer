@@ -14,6 +14,7 @@
 #include "compound/SolidCylinder.hpp"
 #include "compound/ThickAnnulus.hpp"
 #include "containers/BoundingVolumeHierachy.hpp"
+#include "containers/TransformContainer.hpp"
 #include "part_objects/Annulus.hpp"
 #include "part_objects/PartCylinder.hpp"
 #include "part_objects/PartSphere.hpp"

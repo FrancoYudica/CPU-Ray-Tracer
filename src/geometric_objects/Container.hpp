@@ -45,6 +45,9 @@ namespace GeometricObjects {
 
         virtual bool shadow_hit(const Ray& ray, double& tmin) const override;
 
+    private:
+        void _recalculate_bbox();
+
     protected:
         std::vector<GeometricObjectPtr> _objects;
     };
