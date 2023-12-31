@@ -168,3 +168,14 @@ bool BVH::shadow_hit(const Ray& ray, double& tmin) const
 
     return _root_node->shadow_hit(ray, tmin);
 }
+
+void RT::GeometricObjects::BVH::recalculate_bounding_box()
+{
+    if (_objects.size() > 0) {
+        _root_node = std::make_shared<_BVHNode>(_objects, 0, _objects.size() - 1);
+        set_bounding_box(_root_node->get_bounding_box());
+    } else {
+        _root_node = nullptr;
+    }
+    _built = true;
+}

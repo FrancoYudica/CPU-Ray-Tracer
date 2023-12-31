@@ -43,8 +43,6 @@ namespace GeometricObjects {
             add_object(_outer_cylinder);
             add_object(_top_annulus);
             add_object(_bottom_annulus);
-
-            _recalculate_bbox();
         }
 
         inline double get_inner_radius() const { return _inner_cylinder->get_radius(); }
@@ -55,7 +53,6 @@ namespace GeometricObjects {
             _inner_cylinder->set_radius(r);
             _top_annulus->set_inner_radius(r);
             _bottom_annulus->set_inner_radius(r);
-            _recalculate_bbox();
         }
 
         void set_outer_radius(float r)
@@ -63,17 +60,6 @@ namespace GeometricObjects {
             _outer_cylinder->set_radius(r);
             _top_annulus->set_outer_radius(r);
             _bottom_annulus->set_outer_radius(r);
-            _recalculate_bbox();
-        }
-
-    private:
-        void _recalculate_bbox()
-        {
-            double outer_radius = _outer_cylinder->get_radius();
-            double height = _outer_cylinder->get_y1() - _outer_cylinder->get_y0();
-            set_bounding_box(
-                Vec3(-outer_radius, -height * 0.5, -outer_radius),
-                Vec3(outer_radius, height * 0.5, outer_radius));
         }
 
     private:

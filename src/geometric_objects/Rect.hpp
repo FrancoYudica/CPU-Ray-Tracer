@@ -54,6 +54,8 @@ namespace GeometricObjects {
 
         void set_surface_sampler(std::shared_ptr<Sampler> sampler) override;
 
+        void recalculate_bounding_box() override;
+
     private:
         void _update_data()
         {

@@ -122,3 +122,10 @@ bool PartCylinder::shadow_hit(const Ray& ray, double& tmin) const
     }
     return false;
 }
+
+void RT::GeometricObjects::PartCylinder::recalculate_bounding_box()
+{
+    set_bounding_box(
+        Vec3(-_radius, _y0, -_radius),
+        Vec3(_radius, _y1, _radius));
+}

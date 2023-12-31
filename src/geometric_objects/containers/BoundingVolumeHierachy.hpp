@@ -36,7 +36,10 @@ namespace GeometricObjects {
         void build_tree();
 
         virtual bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
+
         virtual bool shadow_hit(const Ray& ray, double& tmin) const override;
+
+        virtual void recalculate_bounding_box() override;
 
     private:
         std::shared_ptr<Impl::_BVHNode> _root_node;

@@ -136,3 +136,17 @@ void Triangle::set_surface_sampler(std::shared_ptr<Sampler> sampler)
     _surface_sampler->generate_samples();
     _surface_sampler->setup_shuffled_indices();
 }
+
+void RT::GeometricObjects::Triangle::recalculate_bounding_box()
+{
+    Vec3 min(
+        std::min(_a.x, std::min(_b.x, _c.x)),
+        std::min(_a.y, std::min(_b.y, _c.y)),
+        std::min(_a.z, std::min(_b.z, _c.z)));
+    Vec3 max(
+        std::max(_a.x, std::max(_b.x, _c.x)),
+        std::max(_a.y, std::max(_b.y, _c.y)),
+        std::max(_a.z, std::max(_b.z, _c.z)));
+
+    set_bounding_box(min, max);
+}

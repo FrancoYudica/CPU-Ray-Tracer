@@ -24,7 +24,7 @@ namespace GeometricObjects {
         virtual void clear() override;
         virtual bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
         virtual bool shadow_hit(const Ray& ray, double& tmin) const override;
-        virtual const AABBox& get_bounding_box() const override;
+        virtual void recalculate_bounding_box() override;
 
         void set_translation(const Vec3& translation);
         void set_scale(const Vec3& scale);

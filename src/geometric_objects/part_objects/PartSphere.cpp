@@ -147,3 +147,10 @@ bool PartSphere::shadow_hit(const Ray& ray, double& tmin) const
 
     return false;
 }
+
+void RT::GeometricObjects::PartSphere::recalculate_bounding_box()
+{
+    set_bounding_box(
+        Vec3(-1.0, -1.0, -1.0),
+        Vec3(1.0, 1.0, 1.0));
+}

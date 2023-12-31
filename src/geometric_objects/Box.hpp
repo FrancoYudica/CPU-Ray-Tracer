@@ -22,6 +22,8 @@ namespace GeometricObjects {
             , GeometricObject(GeometricObjectType::Box)
         {
             _recalculate_pdf();
+            recalculate_bounding_box();
+            disable_bounding_box();
         }
 
         inline Vec3 get_min() const { return _min; }
@@ -67,7 +69,10 @@ namespace GeometricObjects {
         }
 
         bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
+
         bool shadow_hit(const Ray& ray, double& tmin) const;
+
+        void recalculate_bounding_box() override { set_bounding_box(_min, _max); }
 
     private:
         Vec3 _min, _max;

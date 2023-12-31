@@ -23,6 +23,9 @@ namespace GeometricObjects {
             , _max_phi(max_phi)
             , GeometricObject(GeometricObjectType::PartCylinder)
         {
+            recalculate_bounding_box();
+            disable_bounding_box();
+            set_normal_flip();
         }
 
         inline double get_radius() const { return _radius; }
@@ -39,6 +42,7 @@ namespace GeometricObjects {
 
         bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
         bool shadow_hit(const Ray& ray, double& tmin) const override;
+        void recalculate_bounding_box() override;
 
     private:
         double _radius;

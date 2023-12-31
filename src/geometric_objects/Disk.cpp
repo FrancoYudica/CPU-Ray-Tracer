@@ -63,3 +63,36 @@ void Disk::set_surface_sampler(std::shared_ptr<Sampler> sampler)
     _surface_sampler->setup_shuffled_indices();
     _surface_sampler->map_samples_to_unit_disk();
 }
+
+void RT::GeometricObjects::Disk::recalculate_bounding_box()
+{
+    // double i_dot_n_inv = 0.01 + 1.0 - abs(Math::dot(Constants::I, _normal));
+    // double j_dot_n_inv = 0.01 + 1.0 - abs(Math::dot(Constants::J, _normal));
+    // double k_dot_n_inv = 0.01 + 1.0 - abs(Math::dot(Constants::K, _normal));
+
+    /*
+    double i_dot_n_inv = 0.01 + 1.0 - abs(_normal.x);
+    double j_dot_n_inv = 0.01 + 1.0 - abs(_normal.y);
+    double k_dot_n_inv = 0.01 + 1.0 - abs(_normal.z);
+
+    double dx = i_dot_n_inv * _radius;
+    double dy = j_dot_n_inv * _radius;
+    double dz = k_dot_n_inv * _radius;
+
+    Vec3 min(
+        _center.x - dx,
+        _center.y - dy,
+        _center.z - dz);
+
+    Vec3 max(
+        _center.x + dx,
+        _center.y + dy,
+        _center.z + dz);
+
+    set_bounding_box(min, max);
+    */
+
+    set_bounding_box(
+        _center - Vec3(_radius),
+        _center + Vec3(_radius));
+}

@@ -222,7 +222,7 @@ namespace BuildFunctions {
             sphere2
         };
 
-        auto bvh = std::make_shared<GeometricObjects::Container>();
+        auto container = std::make_shared<GeometricObjects::BVH>();
         double scale = 1.0f;
         double spacing = 3 * scale;
         uint32_t size = 3;
@@ -230,17 +230,13 @@ namespace BuildFunctions {
             for (int j = 0; j < size; j++) {
                 uint32_t base_object_index = rand() % base_objects.size();
                 auto instance = std::make_shared<Instance>(base_objects[base_object_index]);
-                // instance->set_translation(Vec3(spacing * (i - size / 2), 1, spacing * (j - size / 2)));
                 instance->set_translation(Vec3(spacing * i, 1, spacing * j));
-
-                // instance->set_scale(Vec3(scale));
-                bvh->add(instance);
-                // world.add_object(instance);
+                container->add(instance);
             }
         }
 
-        // bvh->build_tree();
-        world.add_object(bvh);
+        container->recalculate_bounding_box();
+        world.add_object(container);
         //  - Plane
         auto plane = std::make_shared<GeometricObjects::Plane>(
             Vec3(0.0, -2.0, 0.0),

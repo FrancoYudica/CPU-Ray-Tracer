@@ -62,3 +62,10 @@ void Annulus::set_surface_sampler(std::shared_ptr<Sampler> sampler)
     _surface_sampler->setup_shuffled_indices();
     _surface_sampler->map_samples_to_unit_disk();
 }
+
+void RT::GeometricObjects::Annulus::recalculate_bounding_box()
+{
+    set_bounding_box(
+        _center - Vec3(_outer_radius),
+        _center + Vec3(_outer_radius));
+}

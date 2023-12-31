@@ -7,6 +7,14 @@ namespace GeometricObjects {
     class Triangle : public GeometricObject {
 
     public:
+        Triangle()
+            : Triangle(
+                Vec3(0.0, 0.0, 0.0),
+                Vec3(1.0, 0.0, 0.5),
+                Vec3(1.0, 1.0, 0.5))
+        {
+        }
+
         Triangle(
             const Vec3& a,
             const Vec3& b,
@@ -16,6 +24,8 @@ namespace GeometricObjects {
             , _c(c)
             , GeometricObject(GeometricObjectType::Triangle)
         {
+            recalculate_bounding_box();
+            disable_bounding_box();
             _update_data();
         }
 
@@ -49,6 +59,8 @@ namespace GeometricObjects {
         Vec3 sample_surface() const override;
 
         void set_surface_sampler(std::shared_ptr<Sampler> sampler) override;
+
+        void recalculate_bounding_box() override;
 
     private:
         /// @brief Updates lateral segments, normal and inverse area

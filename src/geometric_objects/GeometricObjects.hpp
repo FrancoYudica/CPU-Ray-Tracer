@@ -8,6 +8,7 @@
 #include "Sphere.hpp"
 #include "Torus.hpp"
 #include "Triangle.hpp"
+#include "compound/Bowl.hpp"
 #include "compound/Capsule.hpp"
 #include "compound/CompoundBox.hpp"
 #include "compound/SolidCone.hpp"

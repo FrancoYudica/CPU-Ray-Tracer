@@ -76,6 +76,13 @@ bool Cone::shadow_hit(const Ray& ray, double& tmin) const
     return y >= 0.0 && y <= _height;
 }
 
+void RT::GeometricObjects::Cone::recalculate_bounding_box()
+{
+    set_bounding_box(
+        Vec3(-_radius, 0, -_radius),
+        Vec3(_radius, _height, _radius));
+}
+
 Vec3 Cone::_compute_normal(const Vec3& p) const
 {
     return Math::normalize(Vec3(

@@ -68,3 +68,10 @@ bool GenericCylinder::shadow_hit(const Ray& ray, double& tmin) const
     tmin = t;
     return t > Constants::k_epsilon && y >= _y0 && y <= _y1;
 }
+
+void RT::GeometricObjects::GenericCylinder::recalculate_bounding_box()
+{
+    set_bounding_box(
+        Vec3(-_radius, _y0, -_radius),
+        Vec3(_radius, _y1, _radius));
+}

@@ -119,6 +119,11 @@ bool PartTorus::shadow_hit(const Ray& ray, double& tmin) const
     return intersected;
 }
 
+void RT::GeometricObjects::PartTorus::recalculate_bounding_box()
+{
+    set_bounding_box(Vec3(-_a - _b, -_b, -_a - _b), Vec3(_a + _b, _b, _a + _b));
+}
+
 Vec3 PartTorus::_compute_normal(const Vec3& p) const
 {
     double v = Math::dot(p, p) - (_a * _a + _b * _b);

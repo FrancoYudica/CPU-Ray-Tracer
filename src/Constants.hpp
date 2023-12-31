@@ -21,6 +21,10 @@ namespace Constants {
 
     static Vec3 JITTERED_UP(0.0072, 1.0, 0.0034);
 
+    static Vec3 I(1.0, 0.0, 0.0);
+    static Vec3 J(0.0, 1.0, 0.0);
+    static Vec3 K(0.0, 0.0, 1.0);
+
     static double PI = 3.141592653589793238462643383279502884197169399375105820974944592307816406286;
     static double PI_2 = PI * 2.0;
     static double PI_OVER_2 = PI / 2.0;

@@ -33,9 +33,10 @@ bool RT::GeometricObjects::TransformContainer::shadow_hit(const Ray& ray, double
     return _instance->shadow_hit(ray, tmin);
 }
 
-const RT::AABBox& RT::GeometricObjects::TransformContainer::get_bounding_box() const
+void RT::GeometricObjects::TransformContainer::recalculate_bounding_box()
 {
-    return _instance->get_bounding_box();
+    _instance->recalculate_bounding_box();
+    set_bounding_box(_instance->get_bounding_box());
 }
 
 void RT::GeometricObjects::TransformContainer::set_translation(const Vec3& translation)

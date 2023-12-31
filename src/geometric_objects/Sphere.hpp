@@ -14,32 +14,20 @@ namespace GeometricObjects {
             , _radius(radius)
             , GeometricObject(GeometricObjectType::Sphere)
         {
-            _recalculate_bbox();
+            recalculate_bounding_box();
+            disable_bounding_box();
         }
-        void set_radius(const float& r)
-        {
-            _radius = r;
-            _recalculate_bbox();
-        }
-        inline void set_center(const Vec3& c)
-        {
-            _center = c;
-            _recalculate_bbox();
-        }
+        inline void set_radius(const float& r) { _radius = r; }
+        inline void set_center(const Vec3& c) { _center = c; }
         inline float get_radius() const { return _radius; }
         inline Vec3 get_center() const { return _center; }
 
         bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
         bool shadow_hit(const Ray& ray, double& tmin) const override;
 
-    private:
-        void _recalculate_bbox()
-        {
-            set_bounding_box(
-                Vec3(_center.x - _radius, _center.y - _radius, _center.z - _radius),
-                Vec3(_center.x + _radius, _center.y + _radius, _center.z + _radius));
-        }
+        void recalculate_bounding_box() override;
 
+    private:
         Vec3 _center;
         double _radius;
     };

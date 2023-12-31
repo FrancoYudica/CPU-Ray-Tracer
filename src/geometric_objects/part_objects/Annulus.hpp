@@ -19,6 +19,17 @@ namespace GeometricObjects {
             , GeometricObject(GeometricObjectType::Annulus)
         {
             _recalculate_pdf();
+            recalculate_bounding_box();
+            disable_bounding_box();
+        }
+
+        Annulus()
+            : Annulus(
+                0.5,
+                1.0,
+                Vec3(0.0, 1.0, 0.0),
+                Vec3(0.0, 1.0, 0.0))
+        {
         }
 
         inline double get_inner_radius() const { return _inner_radius; }
@@ -50,6 +61,8 @@ namespace GeometricObjects {
         Vec3 sample_surface() const override;
 
         void set_surface_sampler(std::shared_ptr<Sampler> sampler) override;
+
+        void recalculate_bounding_box() override;
 
     private:
         double _inner_radius;

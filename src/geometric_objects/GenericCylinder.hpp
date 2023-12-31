@@ -16,6 +16,8 @@ namespace GeometricObjects {
             , _y1(y1)
             , GeometricObject(GeometricObjectType::GenericCylinder)
         {
+            recalculate_bounding_box();
+            disable_bounding_box();
         }
 
         inline double get_radius() const { return _radius; }
@@ -28,6 +30,7 @@ namespace GeometricObjects {
 
         bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
         bool shadow_hit(const Ray& ray, double& tmin) const override;
+        void recalculate_bounding_box() override;
 
     private:
         double _radius;

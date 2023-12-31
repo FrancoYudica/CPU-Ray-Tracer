@@ -99,6 +99,12 @@ bool Torus::shadow_hit(const Ray& ray, double& tmin) const
     return true;
 }
 
+void RT::GeometricObjects::Torus::recalculate_bounding_box()
+{
+    double extra_box_gap = 2.0 * Constants::k_epsilon;
+    set_bounding_box(Vec3(-_a - _b, -_b - extra_box_gap, -_a - _b), Vec3(_a + _b, _b + extra_box_gap, _a + _b));
+}
+
 Vec3 Torus::_compute_normal(const Vec3& p) const
 {
     double v = Math::dot(p, p) - (_a * _a + _b * _b);

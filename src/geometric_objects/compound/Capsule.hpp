@@ -28,8 +28,6 @@ namespace GeometricObjects {
             add_object(_cylinder);
             add_object(_top_sphere);
             add_object(_bottom_sphere);
-
-            _resize_box();
         }
 
         inline double get_height() const { return _height; }
@@ -49,7 +47,6 @@ namespace GeometricObjects {
 
             _cylinder->set_y0(-0.5 * _height);
             _cylinder->set_y1(+0.5 * _height);
-            _resize_box();
         }
 
         void set_radius(const double& r)
@@ -58,15 +55,6 @@ namespace GeometricObjects {
             _top_sphere->set_radius(r);
             _bottom_sphere->set_radius(r);
             _cylinder->set_radius(r);
-            _resize_box();
-        }
-
-    private:
-        void _resize_box()
-        {
-            set_bounding_box(
-                Vec3(-_radius, -_height * 0.5 - _radius, -_radius),
-                Vec3(_radius, _height * 0.5 + _radius, _radius));
         }
 
     private:

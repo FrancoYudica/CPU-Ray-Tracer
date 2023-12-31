@@ -6,19 +6,6 @@ using namespace GeometricObjects;
 void Container::add(const GeometricObjectPtr& object)
 {
     _objects.push_back(object);
-
-    if (!object->has_bounding_box())
-        return;
-
-    // Sets object bounding box
-    if (!has_bounding_box())
-        set_bounding_box(object->get_bounding_box());
-
-    // Combines bounding box
-    else {
-        AABBox combined = AABBox::get_surrounding(get_bounding_box(), object->get_bounding_box());
-        set_bounding_box(combined);
-    }
 }
 
 bool Container::contains(const GeometricObjectPtr& object) const
@@ -34,7 +21,6 @@ bool Container::remove(const GeometricObjectPtr& object)
         return false;
 
     _objects.erase(itr);
-    _recalculate_bbox();
     return true;
 }
 
@@ -104,8 +90,15 @@ bool Container::shadow_hit(const Ray& ray, double& tmin) const
     return false;
 }
 
-void RT::GeometricObjects::Container::_recalculate_bbox()
+void RT::GeometricObjects::Container::recalculate_bounding_box()
 {
+
+    if (size() == 0) {
+        set_bounding_box({ 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 });
+        return;
+    }
+
+    // Iterates through all objects and combines bounding box
     auto itr = _objects.begin();
 
     AABBox bbox = (*itr)->get_bounding_box();

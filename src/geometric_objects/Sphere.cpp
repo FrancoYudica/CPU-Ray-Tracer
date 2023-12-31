@@ -61,3 +61,10 @@ bool Sphere::shadow_hit(const Ray& ray, double& tmin) const
     // Hit if t is positive
     return t > Constants::k_epsilon;
 }
+
+void RT::GeometricObjects::Sphere::recalculate_bounding_box()
+{
+    set_bounding_box(
+        Vec3(_center.x - _radius, _center.y - _radius, _center.z - _radius),
+        Vec3(_center.x + _radius, _center.y + _radius, _center.z + _radius));
+}

@@ -22,7 +22,8 @@ namespace GeometricObjects {
             , _max_theta(max_theta)
             , GeometricObject(GeometricObjectType::PartTorus)
         {
-            set_bounding_box(Vec3(-a - b, -b, -a - b), Vec3(a + b, b, a + b));
+            recalculate_bounding_box();
+            set_normal_flip();
         }
         inline double get_a() const { return _a; }
         inline double get_b() const { return _b; }
@@ -40,6 +41,7 @@ namespace GeometricObjects {
 
         bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
         bool shadow_hit(const Ray& ray, double& tmin) const override;
+        void recalculate_bounding_box() override;
 
     private:
         Vec3 _compute_normal(const Vec3& p) const;

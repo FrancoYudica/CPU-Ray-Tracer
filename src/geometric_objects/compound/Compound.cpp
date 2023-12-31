@@ -10,6 +10,15 @@ void Compound::add_object(const GeometricObjectPtr object)
 
     // Sets compound material
     object->set_material(get_material());
+
+    if (!object->has_bounding_box())
+        return;
+
+    // Sets / Combines bounding boxes
+    if (!has_bounding_box())
+        set_bounding_box(object->get_bounding_box());
+    else
+        set_bounding_box(AABBox::get_surrounding(get_bounding_box(), object->get_bounding_box()));
 }
 
 void Compound::set_material(const std::shared_ptr<Material>& mtl)

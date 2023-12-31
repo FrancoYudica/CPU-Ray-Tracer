@@ -7,8 +7,15 @@ using namespace RT;
 
 void World::build()
 {
+    // Clears previous build
+    // [TODO] remove lights too
     root_container->clear();
+
+    // Adds all scene objects
     build_function(*this);
+
+    // Recalculates bounding box with new build
+    root_container->recalculate_bounding_box();
     _built = true;
 }
 

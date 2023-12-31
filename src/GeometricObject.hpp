@@ -111,6 +111,9 @@ public:
     /// @brief Returns AABBox used for testing intersections
     virtual const AABBox& get_bounding_box() const { return _bounding_box; }
 
+    /// @brief Recalculates bounding box if possible
+    virtual void recalculate_bounding_box() { }
+
     /// @return inverse surface area
     virtual float pdf(const ShadeRec& sr) const { return _inv_surface_area; }
 

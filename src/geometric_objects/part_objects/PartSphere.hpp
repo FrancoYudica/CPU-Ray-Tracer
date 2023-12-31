@@ -20,6 +20,9 @@ namespace GeometricObjects {
             , _max_y(cos(min_theta))
             , GeometricObject(GeometricObjectType::PartSphere)
         {
+            recalculate_bounding_box();
+            disable_bounding_box();
+            set_normal_flip();
         }
 
         inline double get_min_phi() const { return _min_phi; }
@@ -42,6 +45,7 @@ namespace GeometricObjects {
 
         bool hit(const Ray& ray, double& tmin, ShadeRec& record) const override;
         bool shadow_hit(const Ray& ray, double& tmin) const override;
+        void recalculate_bounding_box() override;
 
     private:
         /// @brief phi is an angle in radians measured in the ZX plane,

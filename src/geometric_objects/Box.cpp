@@ -107,6 +107,7 @@ bool Box::hit(const Ray& ray, double& tmin, ShadeRec& record) const
         }
         record.local_hit_point = ray.at(tmin);
         record.hit_point = record.local_hit_point;
+        record.material = get_material();
 
         return true;
     }

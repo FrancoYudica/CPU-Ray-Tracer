@@ -23,6 +23,8 @@ public:
 
     bool shadow_hit(const Ray& ray, double& tmin) const override;
 
+    virtual void recalculate_bounding_box() override;
+
     void set_translation(const Vec3& translation);
     void set_scale(const Vec3& scale);
     void set_rotation_x(const double& rotation);

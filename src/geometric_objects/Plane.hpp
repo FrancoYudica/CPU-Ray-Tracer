@@ -7,7 +7,12 @@ namespace GeometricObjects {
     class Plane : public GeometricObject {
 
     public:
-        Plane() = default;
+        Plane()
+            : _origin(Vec3(0.0, 0.0, 0.0))
+            , _normal(Vec3(0.0, 1.0, 0.0))
+            , GeometricObject(GeometricObjectType::Plane)
+        {
+        }
         Plane(
             const Vec3& origin,
             const Vec3& normal)

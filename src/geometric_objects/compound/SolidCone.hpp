@@ -20,26 +20,15 @@ namespace GeometricObjects {
 
             add_object(_cone);
             add_object(_disk);
-            set_bounding_box(
-                Vec3(-radius, 0.0, -radius),
-                Vec3(radius, height, radius));
         }
         void set_radius(const double& r)
         {
             _cone->set_radius(r);
             _disk->set_radius(r);
-            set_bounding_box(
-                Vec3(-r, 0.0, -r),
-                Vec3(r, _cone->get_height(), r));
         }
         void set_height(const double& h)
         {
             _cone->set_height(h);
-
-            double r = _cone->get_radius();
-            set_bounding_box(
-                Vec3(-r, 0.0, -r),
-                Vec3(r, h, r));
         }
         inline double get_radius() const { return _cone->get_radius(); }
         inline double get_height() const { return _cone->get_height(); }
