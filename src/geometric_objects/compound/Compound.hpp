@@ -23,6 +23,8 @@ namespace GeometricObjects {
         /// @param ray Origin in intersection and direction to light
         virtual bool shadow_hit(const Ray& ray, double& tmin) const override;
 
+        void recalculate_bounding_box() override;
+
     protected:
         std::vector<GeometricObjectPtr> _objects;
     };

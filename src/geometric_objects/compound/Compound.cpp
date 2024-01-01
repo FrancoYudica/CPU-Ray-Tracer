@@ -83,3 +83,24 @@ bool Compound::shadow_hit(const Ray& ray, double& tmin) const
 
     return hit_any;
 }
+
+void RT::GeometricObjects::Compound::recalculate_bounding_box()
+{
+    if (_objects.size() == 0) {
+        set_bounding_box(AABBox({ 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }));
+        disable_bounding_box();
+        return;
+    }
+
+    // Creates a bounding box by combining all objects bounding boxes
+    // it also recalculates each object bounding box
+    auto it = _objects.begin();
+    (*it)->recalculate_bounding_box();
+    AABBox aabb = (*it)->get_bounding_box();
+
+    while (++it != std::end(_objects)) {
+        (*it)->recalculate_bounding_box();
+        aabb = AABBox::get_surrounding(aabb, (*it)->get_bounding_box());
+    }
+    set_bounding_box(aabb);
+}

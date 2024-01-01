@@ -50,6 +50,16 @@ namespace GeometricObjects {
             add_object(_outer_sphere_instance);
         }
 
+        /// @brief Returns inner radius
+        double get_inner_radius() const;
+
+        /// @brief Returns outer radius
+        double get_outer_radius() const;
+
+        void set_inner_radius(double);
+
+        void set_outer_radius(double);
+
     private:
         std::shared_ptr<PartSphere> _inner_sphere;
         std::shared_ptr<PartSphere> _outer_sphere;
