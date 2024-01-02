@@ -3,6 +3,12 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+RT::GeometricObjects::Container::Container(GeometricObjectType object_type)
+    : GeometricObject(object_type)
+{
+    disable_bounding_box();
+}
+
 void Container::add(const GeometricObjectPtr& object)
 {
     _objects.push_back(object);
@@ -92,6 +98,7 @@ bool Container::shadow_hit(const Ray& ray, double& tmin) const
 
 void RT::GeometricObjects::Container::recalculate_bounding_box()
 {
+    enable_bounding_box();
 
     if (size() == 0) {
         set_bounding_box({ 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 });

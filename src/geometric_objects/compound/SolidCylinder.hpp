@@ -14,6 +14,8 @@ namespace GeometricObjects {
         SolidCylinder()
             : Compound(GeometricObjectType::SolidCylinder)
         {
+            enable_bounding_box();
+
             auto cylinder = std::make_shared<GenericCylinder>();
             auto top_disk = std::make_shared<Disk>(1.0, Vec3(0.0, 1.0, 0.0), Vec3(0.0, 1.0, 0.0));
             auto bot_disk = std::make_shared<Disk>(1.0, Vec3(0.0, -1.0, 0.0), Vec3(0.0, -1.0, 0.0));

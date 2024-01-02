@@ -4,6 +4,26 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+PartTorus::PartTorus(
+    double min_phi,
+    double max_phi,
+    double min_theta,
+    double max_theta,
+    double a,
+    double b)
+    : _a(a)
+    , _b(b)
+    , _min_phi(min_phi)
+    , _max_phi(max_phi)
+    , _min_theta(min_theta)
+    , _max_theta(max_theta)
+    , GeometricObject(GeometricObjectType::PartTorus)
+{
+    recalculate_bounding_box();
+    enable_bounding_box();
+    set_normal_flip();
+}
+
 bool PartTorus::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     double x1 = ray.origin.x;

@@ -7,13 +7,8 @@ namespace RT {
 namespace GeometricObjects {
     class Torus : public GeometricObject {
     public:
-        Torus(double a = 2.0, double b = 1.0)
-            : _a(a)
-            , _b(b)
-            , GeometricObject(GeometricObjectType::Torus)
-        {
-            recalculate_bounding_box();
-        }
+        Torus(double a = 2.0, double b = 1.0);
+
         inline double get_a() const { return _a; }
         inline double get_b() const { return _b; }
 

@@ -3,6 +3,36 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+Rect::Rect(
+    const Vec3& p0,
+    const Vec3& a,
+    const Vec3& b)
+    : _p0(p0)
+    , _a(a)
+    , _b(b)
+    , GeometricObject(GeometricObjectType::Rect)
+{
+    _a_len_squared = Math::magnitude_squared(a);
+    _b_len_squared = Math::magnitude_squared(b);
+    _update_data();
+    recalculate_bounding_box();
+    disable_bounding_box();
+    set_normal_flip();
+}
+
+void Rect::set_a(const Vec3& a)
+{
+    _a = a;
+    _a_len_squared = Math::magnitude_squared(_a);
+    _update_data();
+}
+
+void Rect::set_b(const Vec3& b)
+{
+    _b = b;
+    _b_len_squared = Math::magnitude_squared(_b);
+    _update_data();
+}
 bool Rect::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     double t = Math::dot((_p0 - ray.origin), _normal) / Math::dot(ray.direction, _normal);
@@ -104,4 +134,10 @@ void RT::GeometricObjects::Rect::recalculate_bounding_box()
 
     Vec3 eps(Constants::k_epsilon);
     set_bounding_box(min - eps, max + eps);
+}
+
+void RT::GeometricObjects::Rect::_update_data()
+{
+    _inv_surface_area = 1.0f / Math::magnitude(Math::cross(_a, _b));
+    _normal = Math::normalize(Math::cross(_a, _b));
 }

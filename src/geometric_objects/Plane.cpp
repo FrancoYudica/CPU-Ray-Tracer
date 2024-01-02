@@ -4,6 +4,16 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+RT::GeometricObjects::Plane::Plane(
+    const Vec3& origin,
+    const Vec3& normal)
+    : _origin(origin)
+    , _normal(normal)
+    , GeometricObject(GeometricObjectType::Plane)
+{
+    disable_bounding_box();
+}
+
 bool Plane::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     double t = Math::dot(_origin - ray.origin, _normal) / Math::dot(ray.direction, _normal);

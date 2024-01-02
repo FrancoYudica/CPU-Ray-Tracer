@@ -13,18 +13,8 @@ namespace GeometricObjects {
             double min_theta = Constants::PI_OVER_2,
             double max_theta = Constants::PI_2,
             double a = 2.0,
-            double b = 1.0)
-            : _a(a)
-            , _b(b)
-            , _min_phi(min_phi)
-            , _max_phi(max_phi)
-            , _min_theta(min_theta)
-            , _max_theta(max_theta)
-            , GeometricObject(GeometricObjectType::PartTorus)
-        {
-            recalculate_bounding_box();
-            set_normal_flip();
-        }
+            double b = 1.0);
+
         inline double get_a() const { return _a; }
         inline double get_b() const { return _b; }
         inline double get_min_phi() const { return _min_phi; }

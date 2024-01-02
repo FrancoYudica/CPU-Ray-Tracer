@@ -10,15 +10,7 @@ namespace GeometricObjects {
         GenericCylinder(
             double radius = 1.0,
             double y0 = -1.0,
-            double y1 = 1.0)
-            : _radius(radius)
-            , _y0(y0)
-            , _y1(y1)
-            , GeometricObject(GeometricObjectType::GenericCylinder)
-        {
-            recalculate_bounding_box();
-            disable_bounding_box();
-        }
+            double y1 = 1.0);
 
         inline double get_radius() const { return _radius; }
         inline double get_y0() const { return _y0; }

@@ -11,19 +11,7 @@ namespace GeometricObjects {
             double min_phi = Constants::PI_OVER_4,
             double max_phi = Constants::PI_2 - Constants::PI_OVER_4,
             double min_theta = Constants::PI_OVER_4,
-            double max_theta = Constants::PI - Constants::PI_OVER_4)
-            : _min_phi(min_phi)
-            , _max_phi(max_phi)
-            , _min_theta(min_theta)
-            , _max_theta(max_theta)
-            , _min_y(cos(max_theta))
-            , _max_y(cos(min_theta))
-            , GeometricObject(GeometricObjectType::PartSphere)
-        {
-            recalculate_bounding_box();
-            disable_bounding_box();
-            set_normal_flip();
-        }
+            double max_theta = Constants::PI - Constants::PI_OVER_4);
 
         inline double get_min_phi() const { return _min_phi; }
         inline double get_max_phi() const { return _max_phi; }

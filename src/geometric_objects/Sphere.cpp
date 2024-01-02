@@ -4,6 +4,16 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+Sphere::Sphere(
+    const Vec3& center,
+    const double radius)
+    : _center(center)
+    , _radius(radius)
+    , GeometricObject(GeometricObjectType::Sphere)
+{
+    recalculate_bounding_box();
+    disable_bounding_box();
+}
 bool Sphere::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     Vec3 temp = ray.origin - _center;

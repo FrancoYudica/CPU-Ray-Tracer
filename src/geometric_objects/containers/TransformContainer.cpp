@@ -3,6 +3,8 @@
 RT::GeometricObjects::TransformContainer::TransformContainer()
     : Container(GeometricObjectType::TransformContainer)
 {
+    enable_bounding_box();
+
     _container = std::make_shared<Container>();
     _instance = std::make_shared<Instance>(_container);
 }

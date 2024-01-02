@@ -9,14 +9,8 @@ namespace GeometricObjects {
     public:
         Sphere(
             const Vec3& center = Vec3(0.0, 0.0, 0.0),
-            const double radius = 1.0)
-            : _center(center)
-            , _radius(radius)
-            , GeometricObject(GeometricObjectType::Sphere)
-        {
-            recalculate_bounding_box();
-            disable_bounding_box();
-        }
+            const double radius = 1.0);
+
         inline void set_radius(const float& r) { _radius = r; }
         inline void set_center(const Vec3& c) { _center = c; }
         inline float get_radius() const { return _radius; }

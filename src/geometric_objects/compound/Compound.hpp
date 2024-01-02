@@ -11,6 +11,7 @@ namespace GeometricObjects {
         Compound(GeometricObjectType type)
             : GeometricObject(type)
         {
+            enable_bounding_box();
         }
 
         virtual void add_object(const GeometricObjectPtr object);

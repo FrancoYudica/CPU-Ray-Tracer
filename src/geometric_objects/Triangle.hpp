@@ -7,32 +7,28 @@ namespace GeometricObjects {
     class Triangle : public GeometricObject {
 
     public:
-        Triangle()
-            : Triangle(
-                Vec3(0.0, 0.0, 0.0),
-                Vec3(1.0, 0.0, 0.5),
-                Vec3(1.0, 1.0, 0.5))
-        {
-        }
-
         Triangle(
-            const Vec3& a,
-            const Vec3& b,
-            const Vec3& c)
-            : _a(a)
-            , _b(b)
-            , _c(c)
-            , GeometricObject(GeometricObjectType::Triangle)
-        {
-            recalculate_bounding_box();
-            disable_bounding_box();
-            _update_data();
-        }
+            const Vec3& a = Vec3(0.0, 0.0, 0.0),
+            const Vec3& b = Vec3(1.0, 0.0, 0.5),
+            const Vec3& c = Vec3(1.0, 1.0, 0.5));
 
-        inline Vec3 get_a() const { return _a; }
-        inline Vec3 get_b() const { return _b; }
-        inline Vec3 get_c() const { return _c; }
-        inline Vec3 get_normal() const { return _normal; }
+        inline Vec3
+        get_a() const
+        {
+            return _a;
+        }
+        inline Vec3 get_b() const
+        {
+            return _b;
+        }
+        inline Vec3 get_c() const
+        {
+            return _c;
+        }
+        inline Vec3 get_normal() const
+        {
+            return _normal;
+        }
         void set_a(const Vec3& a)
         {
             _a = a;
@@ -64,18 +60,7 @@ namespace GeometricObjects {
 
     private:
         /// @brief Updates lateral segments, normal and inverse area
-        void _update_data()
-        {
-            _ab = _b - _a;
-            _ac = _c - _a;
-            Vec3 cross_abc = Math::cross(_ab, _ac);
-            double cross_magnitude = Math::magnitude(cross_abc);
-            _normal = cross_abc / cross_magnitude;
-
-            // Surface area is half the magnitude of the cross product between
-            // the vectors b - a, and c - a. It's half the parallelogram area.
-            _inv_surface_area = 1.0f / (0.5f * cross_magnitude);
-        }
+        void _update_data();
 
     private:
         /// @brief Triangle vertices, in counterclockwise order

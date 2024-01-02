@@ -67,7 +67,7 @@ bool Compound::shadow_hit(const Ray& ray, double& tmin) const
     for (auto& object : _objects) {
 
         // If object doesn't cast shadows
-        if (!object->shadows)
+        if (!object->casts_shadows())
             continue;
 
         // Tests for bounding box fail

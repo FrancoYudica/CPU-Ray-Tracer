@@ -10,32 +10,13 @@ namespace GeometricObjects {
         Rect(
             const Vec3& p0 = Vec3(0.0, 0.0, 0.0),
             const Vec3& a = Vec3(0.0, 0.0, -1.0),
-            const Vec3& b = Vec3(0.0, 1.0, 0.0))
-            : _p0(p0)
-            , _a(a)
-            , _b(b)
-            , GeometricObject(GeometricObjectType::Rect)
-        {
-            _a_len_squared = Math::magnitude_squared(a);
-            _b_len_squared = Math::magnitude_squared(b);
-            _update_data();
-        }
+            const Vec3& b = Vec3(0.0, 1.0, 0.0));
 
         /// @brief Sets 'a' and updates length squared
-        void set_a(const Vec3& a)
-        {
-            _a = a;
-            _a_len_squared = Math::magnitude_squared(_a);
-            _update_data();
-        }
+        void set_a(const Vec3& a);
 
         /// @brief Sets 'b' and updates length squared
-        void set_b(const Vec3& b)
-        {
-            _b = b;
-            _b_len_squared = Math::magnitude_squared(_b);
-            _update_data();
-        }
+        void set_b(const Vec3& b);
 
         inline void set_p0(const Vec3& p0) { _p0 = p0; }
 
@@ -57,11 +38,7 @@ namespace GeometricObjects {
         void recalculate_bounding_box() override;
 
     private:
-        void _update_data()
-        {
-            _inv_surface_area = 1.0f / Math::magnitude(Math::cross(_a, _b));
-            _normal = Math::normalize(Math::cross(_a, _b));
-        }
+        void _update_data();
 
     private:
         /// @brief 3D space coordinate. Rectangle origin corner

@@ -8,46 +8,19 @@ namespace GeometricObjects {
 
     public:
         Annulus(
-            double inner_radius,
-            double outer_radius,
-            const Vec3& center,
-            const Vec3& normal)
-            : _inner_radius(inner_radius)
-            , _outer_radius(outer_radius)
-            , _center(center)
-            , _normal(normal)
-            , GeometricObject(GeometricObjectType::Annulus)
-        {
-            _recalculate_pdf();
-            recalculate_bounding_box();
-            disable_bounding_box();
-        }
-
-        Annulus()
-            : Annulus(
-                0.5,
-                1.0,
-                Vec3(0.0, 1.0, 0.0),
-                Vec3(0.0, 1.0, 0.0))
-        {
-        }
+            double inner_radius = 0.5,
+            double outer_radius = 1.0,
+            const Vec3& center = Vec3(0.0, 1.0, 0.0),
+            const Vec3& normal = Vec3(0.0, 1.0, 0.0));
 
         inline double get_inner_radius() const { return _inner_radius; }
         inline double get_outer_radius() const { return _outer_radius; }
         inline Vec3 get_normal() const { return _normal; }
         inline Vec3 get_center() const { return _center; }
 
-        void set_inner_radius(float r)
-        {
-            _inner_radius = r;
-            _recalculate_pdf();
-        }
+        void set_inner_radius(float r);
 
-        void set_outer_radius(float r)
-        {
-            _outer_radius = r;
-            _recalculate_pdf();
-        }
+        void set_outer_radius(float r);
 
         inline void set_center(const Vec3& c) { _center = c; }
         inline void set_normal(const Vec3& n) { _normal = n; }

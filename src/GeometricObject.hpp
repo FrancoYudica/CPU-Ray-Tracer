@@ -50,12 +50,13 @@ class GeometricObject {
 public:
     GeometricObject(GeometricObjectType type)
         : _type(type)
-        , shadows(true)
+        , _shadows(true)
         , _visible(true)
         , _inv_surface_area(1.0f)
         , _surface_sampler(nullptr)
         , _bounding_box(Vec3(0.0), Vec3(0.0))
         , _has_bounding_box(false)
+        , _bounding_box_enabled(false)
         , _normal_type(NormalType::Outwards)
     {
     }
@@ -79,11 +80,11 @@ public:
 
     inline NormalType get_normal_type() const { return _normal_type; }
 
-    inline bool casts_shadows() const { return shadows; }
+    inline bool casts_shadows() const { return _shadows; }
 
-    inline void enable_shadows() { shadows = true; }
+    inline void enable_shadows() { _shadows = true; }
 
-    inline void disable_shadows() { shadows = false; }
+    inline void disable_shadows() { _shadows = false; }
 
     inline bool has_bounding_box() const { return _has_bounding_box; }
 
@@ -91,7 +92,6 @@ public:
     {
         _bounding_box = AABBox(min, max);
         _has_bounding_box = true;
-        enable_bounding_box();
     }
 
     inline void set_bounding_box(const AABBox& bbox)
@@ -137,13 +137,13 @@ public:
 
 public:
     mutable std::shared_ptr<Material> material;
-    bool shadows;
 
 private:
     GeometricObjectType _type;
     bool _has_bounding_box;
     bool _bounding_box_enabled;
     bool _visible;
+    bool _shadows;
     AABBox _bounding_box;
     NormalType _normal_type;
 

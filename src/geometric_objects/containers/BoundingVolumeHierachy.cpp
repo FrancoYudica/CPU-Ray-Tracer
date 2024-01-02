@@ -122,6 +122,7 @@ bool _BVHNode::shadow_hit(const Ray& ray, double& tmin) const
 BVH::BVH()
     : Container(GeometricObjectType::BoundingVolumeHierarchy)
 {
+    enable_bounding_box();
 }
 
 void BVH::add(const GeometricObjectPtr& object)

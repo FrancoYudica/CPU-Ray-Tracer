@@ -4,6 +4,24 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+PartCylinder::PartCylinder(
+    double min_phi,
+    double max_phi,
+    double radius,
+    double y0,
+    double y1)
+    : _radius(radius)
+    , _y0(y0)
+    , _y1(y1)
+    , _min_phi(min_phi)
+    , _max_phi(max_phi)
+    , GeometricObject(GeometricObjectType::PartCylinder)
+{
+    recalculate_bounding_box();
+    disable_bounding_box();
+    set_normal_flip();
+}
+
 bool PartCylinder::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
 

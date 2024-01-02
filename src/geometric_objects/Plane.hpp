@@ -7,20 +7,10 @@ namespace GeometricObjects {
     class Plane : public GeometricObject {
 
     public:
-        Plane()
-            : _origin(Vec3(0.0, 0.0, 0.0))
-            , _normal(Vec3(0.0, 1.0, 0.0))
-            , GeometricObject(GeometricObjectType::Plane)
-        {
-        }
         Plane(
-            const Vec3& origin,
-            const Vec3& normal)
-            : _origin(origin)
-            , _normal(normal)
-            , GeometricObject(GeometricObjectType::Plane)
-        {
-        }
+            const Vec3& origin = Vec3(0.0, 0.0, 0.0),
+            const Vec3& normal = Vec3(0.0, 1.0, 0.0));
+
         void set_normal(const Vec3& normal) { this->_normal = normal; }
         void set_origin(const Vec3& origin) { this->_origin = origin; }
         Vec3 get_normal() const { return _normal; }

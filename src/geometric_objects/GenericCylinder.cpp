@@ -3,6 +3,19 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+RT::GeometricObjects::GenericCylinder::GenericCylinder(
+    double radius,
+    double y0,
+    double y1)
+    : _radius(radius)
+    , _y0(y0)
+    , _y1(y1)
+    , GeometricObject(GeometricObjectType::GenericCylinder)
+{
+    recalculate_bounding_box();
+    disable_bounding_box();
+}
+
 bool GenericCylinder::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
 

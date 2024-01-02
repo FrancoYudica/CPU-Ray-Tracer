@@ -3,6 +3,20 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+Triangle::Triangle(
+    const Vec3& a,
+    const Vec3& b,
+    const Vec3& c)
+    : _a(a)
+    , _b(b)
+    , _c(c)
+    , GeometricObject(GeometricObjectType::Triangle)
+{
+    recalculate_bounding_box();
+    disable_bounding_box();
+    _update_data();
+}
+
 bool Triangle::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     // Linear system coefficients
@@ -149,4 +163,17 @@ void RT::GeometricObjects::Triangle::recalculate_bounding_box()
         std::max(_a.z, std::max(_b.z, _c.z)));
 
     set_bounding_box(min, max);
+}
+
+void Triangle::_update_data()
+{
+    _ab = _b - _a;
+    _ac = _c - _a;
+    Vec3 cross_abc = Math::cross(_ab, _ac);
+    double cross_magnitude = Math::magnitude(cross_abc);
+    _normal = cross_abc / cross_magnitude;
+
+    // Surface area is half the magnitude of the cross product between
+    // the vectors b - a, and c - a. It's half the parallelogram area.
+    _inv_surface_area = 1.0f / (0.5f * cross_magnitude);
 }

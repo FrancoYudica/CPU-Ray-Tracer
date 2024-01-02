@@ -4,6 +4,14 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+RT::GeometricObjects::Torus::Torus(double a, double b)
+    : _a(a)
+    , _b(b)
+    , GeometricObject(GeometricObjectType::Torus)
+{
+    recalculate_bounding_box();
+    enable_bounding_box();
+}
 bool Torus::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     double x1 = ray.origin.x;

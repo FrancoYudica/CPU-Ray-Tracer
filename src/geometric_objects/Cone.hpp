@@ -18,6 +18,8 @@ namespace GeometricObjects {
             , _height_over_radius(height / radius)
             , GeometricObject(GeometricObjectType::Cone)
         {
+            recalculate_bounding_box();
+            disable_bounding_box();
         }
         void set_radius(const double& r)
         {

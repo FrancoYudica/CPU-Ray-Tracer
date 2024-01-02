@@ -4,6 +4,20 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+RT::GeometricObjects::Disk::Disk(
+    double radius,
+    const Vec3& center,
+    const Vec3& normal)
+    : _radius(radius)
+    , _center(center)
+    , _normal(normal)
+    , GeometricObject(GeometricObjectType::Disk)
+{
+    _recalculate_pdf();
+    recalculate_bounding_box();
+    disable_bounding_box();
+}
+
 bool Disk::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     double t = Math::dot((_center - ray.origin), _normal) / Math::dot(ray.direction, _normal);

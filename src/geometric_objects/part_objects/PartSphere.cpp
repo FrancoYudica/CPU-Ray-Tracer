@@ -4,6 +4,19 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+PartSphere::PartSphere(double min_phi, double max_phi, double min_theta, double max_theta)
+    : _min_phi(min_phi)
+    , _max_phi(max_phi)
+    , _min_theta(min_theta)
+    , _max_theta(max_theta)
+    , _min_y(cos(max_theta))
+    , _max_y(cos(min_theta))
+    , GeometricObject(GeometricObjectType::PartSphere)
+{
+    recalculate_bounding_box();
+    disable_bounding_box();
+    set_normal_flip();
+}
 bool PartSphere::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     double a = Math::dot(ray.direction, ray.direction);

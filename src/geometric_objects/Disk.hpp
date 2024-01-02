@@ -8,23 +8,9 @@ namespace GeometricObjects {
 
     public:
         Disk(
-            double radius,
-            const Vec3& center,
-            const Vec3& normal)
-            : _radius(radius)
-            , _center(center)
-            , _normal(normal)
-            , GeometricObject(GeometricObjectType::Disk)
-        {
-            _recalculate_pdf();
-            recalculate_bounding_box();
-            disable_bounding_box();
-        }
-
-        Disk()
-            : Disk(1.0, Vec3(0.0, 1.0, 0.0), Vec3(0.0, 1.0, 0.0))
-        {
-        }
+            double radius = 1.0,
+            const Vec3& center = Vec3(0.0, 1.0, 0.0),
+            const Vec3& normal = Vec3(0.0, 1.0, 0.0));
 
         inline double get_radius() const { return _radius; }
         inline Vec3 get_normal() const { return _normal; }

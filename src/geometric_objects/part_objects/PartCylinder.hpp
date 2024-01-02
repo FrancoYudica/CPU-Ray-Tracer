@@ -15,18 +15,7 @@ namespace GeometricObjects {
             double max_phi = Constants::PI_2 - Constants::PI_OVER_4,
             double radius = 1.0,
             double y0 = -1.0,
-            double y1 = 1.0)
-            : _radius(radius)
-            , _y0(y0)
-            , _y1(y1)
-            , _min_phi(min_phi)
-            , _max_phi(max_phi)
-            , GeometricObject(GeometricObjectType::PartCylinder)
-        {
-            recalculate_bounding_box();
-            disable_bounding_box();
-            set_normal_flip();
-        }
+            double y1 = 1.0);
 
         inline double get_radius() const { return _radius; }
         inline double get_y0() const { return _y0; }

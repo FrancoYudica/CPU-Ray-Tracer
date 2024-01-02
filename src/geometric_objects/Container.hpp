@@ -12,11 +12,7 @@ namespace GeometricObjects {
     class Container : public GeometricObject {
 
     public:
-        Container(
-            GeometricObjectType object_type = GeometricObjectType::Container)
-            : GeometricObject(object_type)
-        {
-        }
+        Container(GeometricObjectType object_type = GeometricObjectType::Container);
 
         /// @brief Adds geometric object to Container
         virtual void add(const GeometricObjectPtr& object);

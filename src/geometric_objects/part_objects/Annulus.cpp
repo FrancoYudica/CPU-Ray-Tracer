@@ -3,6 +3,31 @@
 using namespace RT;
 using namespace GeometricObjects;
 
+Annulus::Annulus(
+    double inner_radius,
+    double outer_radius,
+    const Vec3& center,
+    const Vec3& normal)
+    : _inner_radius(inner_radius)
+    , _outer_radius(outer_radius)
+    , _center(center)
+    , _normal(normal)
+    , GeometricObject(GeometricObjectType::Annulus)
+{
+    _recalculate_pdf();
+    recalculate_bounding_box();
+    disable_bounding_box();
+}
+void Annulus::set_inner_radius(float r)
+{
+    _inner_radius = r;
+    _recalculate_pdf();
+}
+void Annulus::set_outer_radius(float r)
+{
+    _outer_radius = r;
+    _recalculate_pdf();
+}
 bool Annulus::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     tmin = Math::dot((_center - ray.origin), _normal) / Math::dot(ray.direction, _normal);
