@@ -13,6 +13,8 @@ file(GLOB RT_FILES
     src/geometric_objects/compound/*.cpp
     src/geometric_objects/containers/*.hpp 
     src/geometric_objects/containers/*.cpp
+    src/geometric_objects/mesh_triangle/*.hpp 
+    src/geometric_objects/mesh_triangle/*.cpp
 
     src/tracers/*.hpp 
     src/tracers/*.cpp

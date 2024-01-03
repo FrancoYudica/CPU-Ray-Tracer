@@ -5,6 +5,7 @@
 #include "GenericCylinder.hpp"
 #include "Plane.hpp"
 #include "Rect.hpp"
+#include "SmoothTriangle.hpp"
 #include "Sphere.hpp"
 #include "Torus.hpp"
 #include "Triangle.hpp"

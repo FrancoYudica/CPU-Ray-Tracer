@@ -32,7 +32,10 @@ enum class GeometricObjectType : uint8_t {
     Instance = 19,
     BoundingVolumeHierarchy = 20,
     Container = 21,
-    TransformContainer = 22
+    TransformContainer = 22,
+    SmoothTriangle = 23,
+    FlatMeshTriangle = 24,
+    SmoothMeshTriangle = 25
 };
 
 static bool is_container_type(GeometricObjectType type)

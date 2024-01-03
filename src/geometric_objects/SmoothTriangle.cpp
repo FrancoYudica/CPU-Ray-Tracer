@@ -1,23 +1,28 @@
-#include "Triangle.hpp"
+#include "SmoothTriangle.hpp"
 
 using namespace RT;
 using namespace GeometricObjects;
 
-Triangle::Triangle(
+SmoothTriangle::SmoothTriangle(
     const Vec3& a,
     const Vec3& b,
-    const Vec3& c)
+    const Vec3& c,
+    const Vec3& na,
+    const Vec3& nb,
+    const Vec3& nc)
     : _a(a)
     , _b(b)
     , _c(c)
-    , GeometricObject(GeometricObjectType::Triangle)
+    , _na(na)
+    , _nb(nb)
+    , _nc(nc)
+    , GeometricObject(GeometricObjectType::SmoothTriangle)
 {
     recalculate_bounding_box();
     disable_bounding_box();
-    _update_data();
 }
 
-bool Triangle::hit(const Ray& ray, double& tmin, ShadeRec& record) const
+bool SmoothTriangle::hit(const Ray& ray, double& tmin, ShadeRec& record) const
 {
     // Linear system coefficients
     double a = _a.x - _b.x;
@@ -68,13 +73,17 @@ bool Triangle::hit(const Ray& ray, double& tmin, ShadeRec& record) const
     tmin = t;
     record.local_hit_point = ray.at(t);
     record.hit_point = record.local_hit_point;
-    record.set_normal(_normal, get_normal_type());
+
+    // Interpolates normal with barycentric coordinates
+    Vec3 normal = (1 - beta - gamma) * _na + beta * _nb + gamma * _nc;
+
+    record.set_normal(normal, get_normal_type());
     record.material = get_material();
 
     return true;
 }
 
-bool Triangle::shadow_hit(const Ray& ray, double& tmin) const
+bool SmoothTriangle::shadow_hit(const Ray& ray, double& tmin) const
 {
     // Linear system coefficients
     double a = _a.x - _b.x;
@@ -125,12 +134,7 @@ bool Triangle::shadow_hit(const Ray& ray, double& tmin) const
     return true;
 }
 
-Vec3 Triangle::get_normal(const Vec3& p) const
-{
-    return _normal;
-}
-
-Vec3 Triangle::sample_surface() const
+Vec3 SmoothTriangle::sample_surface() const
 {
     // Uniform triangle sample
     Vec2 sample = _surface_sampler->sample_unit_square();
@@ -144,14 +148,14 @@ Vec3 Triangle::sample_surface() const
     return _a + sample.x * _ab + sample.y * _ac;
 }
 
-void Triangle::set_surface_sampler(std::shared_ptr<Sampler> sampler)
+void SmoothTriangle::set_surface_sampler(std::shared_ptr<Sampler> sampler)
 {
     _surface_sampler = sampler;
     _surface_sampler->generate_samples();
     _surface_sampler->setup_shuffled_indices();
 }
 
-void RT::GeometricObjects::Triangle::recalculate_bounding_box()
+void SmoothTriangle::recalculate_bounding_box()
 {
     Vec3 min(
         std::min(_a.x, std::min(_b.x, _c.x)) - Constants::k_epsilon,
@@ -163,17 +167,4 @@ void RT::GeometricObjects::Triangle::recalculate_bounding_box()
         std::max(_a.z, std::max(_b.z, _c.z)) + Constants::k_epsilon);
 
     set_bounding_box(min, max);
-}
-
-void Triangle::_update_data()
-{
-    _ab = _b - _a;
-    _ac = _c - _a;
-    Vec3 cross_abc = Math::cross(_ab, _ac);
-    double cross_magnitude = Math::magnitude(cross_abc);
-    _normal = cross_abc / cross_magnitude;
-
-    // Surface area is half the magnitude of the cross product between
-    // the vectors b - a, and c - a. It's half the parallelogram area.
-    _inv_surface_area = 1.0f / (0.5f * cross_magnitude);
 }

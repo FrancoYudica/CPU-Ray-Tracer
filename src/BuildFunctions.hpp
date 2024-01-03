@@ -274,6 +274,183 @@ namespace BuildFunctions {
         }
     }
 
+    static std::vector<GeometricObjectPtr> build_uv_sphere(int n_slices, int n_stacks)
+    {
+        std::vector<GeometricObjectPtr> triangles;
+
+        std::vector<Vec3> vertices;
+
+        // add top vertex
+        Vec3 top_vertex = Vec3(0, 1, 0);
+        vertices.push_back(top_vertex);
+
+        // generate vertices per stack / slice
+        for (int i = 0; i < n_stacks - 1; i++) {
+            auto phi = M_PI * double(i + 1) / double(n_stacks);
+            for (int j = 0; j < n_slices; j++) {
+                auto theta = 2.0 * M_PI * double(j) / double(n_slices);
+                auto x = std::sin(phi) * std::cos(theta);
+                auto y = std::cos(phi);
+                auto z = std::sin(phi) * std::sin(theta);
+                vertices.push_back(Vec3(x, y, z));
+            }
+        }
+
+        // add bottom vertex
+        Vec3 bottom_vertex = Vec3(0, -1, 0);
+        vertices.push_back(bottom_vertex);
+
+        // add top / bottom triangles
+        for (int i = 0; i < n_slices; ++i) {
+            auto i0 = i + 1;
+            auto i1 = (i + 1) % n_slices + 1;
+
+            auto triangle1 = std::make_shared<GeometricObjects::Triangle>(
+                top_vertex,
+                vertices[i1],
+                vertices[i0]);
+
+            i0 = i + n_slices * (n_stacks - 2) + 1;
+            i1 = (i + 1) % n_slices + n_slices * (n_stacks - 2) + 1;
+
+            auto triangle2 = std::make_shared<GeometricObjects::Triangle>(
+                bottom_vertex,
+                vertices[i1],
+                vertices[i0]);
+
+            triangles.push_back(triangle1);
+            triangles.push_back(triangle2);
+        }
+
+        // add quads per stack / slice
+        for (int j = 0; j < n_stacks - 2; j++) {
+            auto j0 = j * n_slices + 1;
+            auto j1 = (j + 1) * n_slices + 1;
+            for (int i = 0; i < n_slices; i++) {
+                auto i0 = j0 + i;
+                auto i1 = j0 + (i + 1) % n_slices;
+                auto i2 = j1 + (i + 1) % n_slices;
+                auto i3 = j1 + i;
+
+                auto triangle1 = std::make_shared<GeometricObjects::Triangle>(
+                    vertices[i0],
+                    vertices[i1],
+                    vertices[i2]);
+
+                auto triangle2 = std::make_shared<GeometricObjects::Triangle>(
+                    vertices[i3],
+                    vertices[i0],
+                    vertices[i2]);
+
+                triangles.push_back(triangle1);
+                triangles.push_back(triangle2);
+            }
+        }
+        return triangles;
+    }
+
+    static void build_uv_sphere_flat(World& world)
+    {
+        int num_samples = 1;
+
+        // Sets view plane ----------------------------------
+        ViewPlane view_plane;
+        uint32_t horizontal_resolution = 400;
+        uint32_t vertical_resolution = 400;
+        view_plane.set_hres(horizontal_resolution);
+        view_plane.set_vres(vertical_resolution);
+        view_plane.set_samples(num_samples);
+        world.view_plane = view_plane;
+        world.background_color = Constants::BLACK;
+
+        // Tracer
+        world.set_tracer(std::make_shared<Tracers::AreaLighting>(world));
+
+        // Ambient light
+        auto ambient_occluder = std::make_shared<Lights::AmbientOccluder>();
+        ambient_occluder->scale_radiance(1.0);
+        ambient_occluder->set_color(RGBColor(46.0 / 255.0));
+        ambient_occluder->set_min_intensity(0.0f);
+        ambient_occluder->set_samples(num_samples);
+        world.set_ambient_light(ambient_occluder);
+
+        // Pinhole camera
+        auto camera = std::make_shared<Cameras::PinholeCamera>();
+        camera->set_eye({ 10, 29, 60 });
+        camera->set_look_at({ 0, 2, 0 });
+        camera->set_view_distance(550);
+        camera->setup_camera();
+        world.set_camera(camera);
+
+        // Materials
+        auto phong_material_1 = std::make_shared<Materials::Phong>();
+        phong_material_1->set_ka(0.5);
+        phong_material_1->set_kd(0.25);
+        phong_material_1->set_ks(0.25);
+        phong_material_1->set_ca(Vec3(1.0, 0.5, 0.7));
+        phong_material_1->set_cd(Vec3(1.0, 0.5, 0.7));
+        phong_material_1->set_cs(Vec3(1.0, 0.5, 0.7));
+
+        auto phong_material_2 = std::make_shared<Materials::Phong>();
+        phong_material_2->set_ka(0.5);
+        phong_material_2->set_kd(0.25);
+        phong_material_2->set_ks(0.25);
+        phong_material_2->set_ca(Vec3(0.3, 0.8, 0.7));
+        phong_material_2->set_cd(Vec3(0.3, 0.8, 0.7));
+        phong_material_2->set_cs(Vec3(0.3, 0.8, 0.7));
+
+        auto matte_2 = std::make_shared<Materials::Matte>();
+        matte_2->set_ka(0.75);
+        matte_2->set_kd(0.25);
+        matte_2->set_ca(Constants::WHITE);
+
+        // Geometric objects
+        auto container = std::make_shared<GeometricObjects::BVH>();
+
+        auto tessellated_sphere = build_uv_sphere(16, 16);
+        for (GeometricObjectPtr& triangle : tessellated_sphere) {
+            triangle->set_material(phong_material_1);
+            container->add(triangle);
+        }
+        container->recalculate_bounding_box();
+        world.add_object(container);
+
+        //  - Plane
+        auto plane = std::make_shared<GeometricObjects::Plane>(
+            Vec3(0.0, -2.0, 0.0),
+            Vec3(0, 1, 0));
+        plane->set_material(matte_2);
+        world.add_object(plane);
+
+        auto environment_material = std::make_shared<Materials::Emissive>();
+
+        // Environment sphere. Has uses environment material
+        {
+            auto sphere = std::make_shared<GeometricObjects::Sphere>();
+            sphere->set_normal_inwards();
+            sphere->set_radius(10000.0);
+            sphere->disable_shadows();
+            sphere->set_material(environment_material);
+            world.add_object(sphere);
+        }
+
+        // Environment light
+        {
+            auto environment_light = std::make_shared<Lights::EnvironmentLight>();
+            environment_light->set_material(environment_material);
+            environment_light->set_samples(num_samples);
+            world.add_light(environment_light);
+        }
+
+        // Directional sun light
+        {
+            auto directional_sun = std::make_shared<Lights::JitteredDirectionalLight>();
+            directional_sun->set_direction(Math::normalize(Vec3(1, -1, 0)));
+            directional_sun->set_theta(0.25 * Constants::PI_OVER_4);
+            directional_sun->set_samples(num_samples);
+            world.add_light(directional_sun);
+        }
+    }
     static void build_environment_light_test(World& world)
     {
         int num_samples = 1;
