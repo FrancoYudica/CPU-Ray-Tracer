@@ -2,7 +2,7 @@
 #include "../Ray.hpp"
 #include "../ShadeRec.hpp"
 #include "../World.hpp"
-#include "../Math_rt.hpp"
+#include "../math_RT.hpp"
 
 using namespace RT;
 using namespace RT::Materials;

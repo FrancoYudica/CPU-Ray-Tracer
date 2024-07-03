@@ -1,7 +1,7 @@
 #ifndef __RT_BUILD_FUNCTIONS__
 #define __RT_BUILD_FUNCTIONS__
 #include "Instance.hpp"
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 #include "World.hpp"
 #include "geometric_objects/GeometricObjects.hpp"
 

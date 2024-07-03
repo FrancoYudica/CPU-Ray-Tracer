@@ -1,5 +1,5 @@
 #include "Torus.hpp"
-#include "../Math_rt.hpp"
+#include "../math_RT.hpp"
 
 using namespace RT;
 using namespace GeometricObjects;

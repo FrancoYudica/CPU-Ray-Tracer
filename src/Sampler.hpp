@@ -1,6 +1,6 @@
 #ifndef __RT_SAMPLER__
 #define __RT_SAMPLER__
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 #include <vector>
 
 namespace RT {

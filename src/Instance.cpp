@@ -1,6 +1,6 @@
 #include "Instance.hpp"
 #include "Material.hpp"
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 #include "glm/gtx/transform.hpp"
 
 using namespace RT;

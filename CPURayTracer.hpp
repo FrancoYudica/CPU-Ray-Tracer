@@ -11,7 +11,7 @@
 #include "src/Instance.hpp"
 #include "src/Light.hpp"
 #include "src/Material.hpp"
-#include "src/Math_rt.hpp"
+#include "src/math_RT.hpp"
 #include "src/Random.hpp"
 #include "src/Ray.hpp"
 #include "src/RenderBuffer.hpp"

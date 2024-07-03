@@ -1,7 +1,7 @@
 #ifndef __RT_SHADE_RECORD__
 #define __RT_SHADE_RECORD__
 #include "Material.hpp"
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 #include "Ray.hpp"
 #include <memory>
 

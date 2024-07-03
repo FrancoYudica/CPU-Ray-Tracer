@@ -1,6 +1,6 @@
 #ifndef __RT_RENDER_BUFFER__
 #define __RT_RENDER_BUFFER__
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 #include <cstring>
 #include <iostream>
 #include <stdint.h>

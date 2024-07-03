@@ -1,6 +1,6 @@
 #ifndef __RT_RAY__
 #define __RT_RAY__
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 
 namespace RT {
 struct Ray {

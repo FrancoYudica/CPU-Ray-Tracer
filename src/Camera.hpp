@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __RT_CAMERA__
 #define __RT_CAMERA__
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 
 namespace RT {
 class World;

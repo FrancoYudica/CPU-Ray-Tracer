@@ -1,7 +1,7 @@
 #ifndef __RT_LIGHT__
 #define __RT_LIGHT__
 #include "Constants.hpp"
-#include "Math_rt.hpp"
+#include "math_RT.hpp"
 
 namespace RT {
 class ShadeRec;
